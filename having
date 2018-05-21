@@ -1,0 +1,4 @@
+Select location, avg(employees)
+from startups
+group by 1
+having avg(employees) > 500;
