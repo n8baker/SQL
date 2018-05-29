@@ -1,0 +1,106 @@
+ Select *
+ From browse As 'b'
+ Left JOIN checkout as 'c'
+ On b.user_id = c.user_id
+ Left JOIN purchase as 'p'
+ On p.user_id = c.user_id
+ Limit 50;
+ 
+ /* selecting specific rows from the joined tables */
+ 
+ Select b.browse_date, b.user_id, c.user_id IS NOT NULL AS 'is_checkout', p.user_id IS NOT NULL AS 'is_purchase'
+ From browse As 'b'
+ Left JOIN checkout as 'c'
+ On b.user_id = c.user_id
+ Left JOIN purchase as 'p'
+ On p.user_id = c.user_id
+ Limit 50;
+ 
+ /* using a WITH command */
+ 
+ WITH funnels AS (
+  SELECT b.browse_date,
+      b.user_id,
+      c.user_id IS NOT NULL as is_checkout,
+      p.user_id IS NOT NULL as is_purchase
+  FROM browse b
+  LEFT JOIN  checkout c
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase p
+    ON p.user_id = c.user_id)
+SELECT Count(*) as 'num_browse'
+From funnels;
+
+/* Using CASE */
+
+WITH funnels AS (
+  SELECT b.browse_date,
+      b.user_id,
+      c.user_id IS NOT NULL as 'is_checkout',
+      p.user_id IS NOT NULL as 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase as 'p'
+    ON p.user_id = c.user_id)
+SELECT Count(*) as 'num_browse', 
+Count(
+  CASE 
+ WHEN is_checkout = 1 THEN 
+ user_id 
+ ELSE NULL END) AS 'num_checkout'
+From funnels;
+
+/* adding another CASE */
+
+WITH funnels AS (
+  SELECT b.browse_date,
+      b.user_id,
+      c.user_id IS NOT NULL as 'is_checkout',
+      p.user_id IS NOT NULL as 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase as 'p'
+    ON p.user_id = c.user_id)
+SELECT Count(*) as 'num_browse', 
+Count(
+  CASE 
+ WHEN is_checkout = 1 THEN 
+ user_id 
+ ELSE NULL END) AS 'num_checkout',
+ COUNT(
+ CASE
+ WHEN is_purchase = 1 THEN user_id ELSE NULL END) as 'num_purchase'
+From funnels;
+
+/* USING GROUP BY to examine date ranges */
+
+WITH funnels AS (
+  SELECT b.browse_date,
+     b.user_id,
+     c.user_id IS NOT NULL as is_checkout,
+     p.user_id IS NOT NULL as is_purchase
+  FROM browse b
+  LEFT JOIN checkout c
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase p
+    ON p.user_id = c.user_id)
+SELECT 
+browse_date, COUNT(*) as num_browse,
+  COUNT(
+    CASE
+      WHEN is_checkout = 1 THEN user_id
+      ELSE NULL
+    END) as num_checkout,
+  COUNT(
+    CASE
+      WHEN is_purchase = 1 THEN user_id
+      ELSE NULL
+    END) as num_purchase
+FROM funnels
+Group by 1
+Order by 1;
+
+
+
