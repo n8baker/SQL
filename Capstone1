@@ -52,3 +52,147 @@ ON q.user_id = h.user_id
 LEFT JOIN purchase as p
 ON p.user_id = q.user_id
 LIMIT 10;
+
+-- SHOWING JUST 3 Pair Trials --
+
+SELECT DISTINCT q.user_id,
+CASE WHEN h.user_id IS NOT NULL
+	THEN 'True' ELSE 'False'
+	END AS 'is_home_try_on',
+h.number_of_pairs,
+CASE WHEN p.user_id IS NOT NULL 
+	THEN 'True' ELSE 'False'
+	END AS 'is_purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs';
+
+-- showing 3 pair trials where purchase is True --
+
+SELECT DISTINCT q.user_id, 
+CASE WHEN h.user_id IS NOT NULL
+	THEN 'True' ELSE 'False'
+	END AS 'is_home_try_on',
+h.number_of_pairs,
+CASE WHEN p.user_id IS NOT NULL 
+	THEN 'True' ELSE 'False'
+	END AS 'is_purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs' AND is_purchase = 'True'
+LIMIT 10;
+
+-- Comparing Purchase 3 pair trial vs. 5 pair trial -- 
+
+SELECT COUNT (*) AS '3 Pair Trial'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs';
+
+SELECT COUNT (*) AS '3 Pair Purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs'
+	and p.user_id IS NOT NULL;
+
+
+SELECT COUNT (*) AS '5 Pair Trial'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '5 pairs';
+
+SELECT COUNT (*) AS '5 Pair Purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '5 pairs'
+	and p.user_id is NOT NULL;
+
+-- 3 pair trial vs. 3 pair purchase
+
+SELECT DISTINCT q.user_id, 
+CASE WHEN h.user_id IS NOT NULL
+	THEN 'True' ELSE 'False'
+	END AS 'is_home_try_on',
+h.number_of_pairs,
+CASE WHEN p.user_id IS NOT NULL 
+
+-- 5 pair trial vs. purchase
+
+SELECT DISTINCT q.user_id, 
+CASE WHEN h.user_id IS NOT NULL
+	THEN 'True' ELSE 'False'
+	END AS 'is_home_try_on',
+h.number_of_pairs,
+CASE WHEN p.user_id IS NOT NULL 
+	THEN 'True' ELSE 'False'
+	END AS 'is_purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '5 pairs' AND is_purchase = 'True'
+LIMIT 10;
+
+SELECT COUNT (*) AS '5 Pair Trial'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '5 pairs';
+
+SELECT COUNT (*) AS '5 Pair Purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '5 pairs'
+	and p.user_id IS NOT NULL;
+
+
+	THEN 'True' ELSE 'False'
+	END AS 'is_purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs' AND is_purchase = 'True'
+LIMIT 10;
+
+SELECT COUNT (*) AS '3 Pair Trial'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs';
+
+SELECT COUNT (*) AS '3 Pair Purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+WHERE h.number_of_pairs = '3 pairs'
+	and p.user_id IS NOT NULL;
