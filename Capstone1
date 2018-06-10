@@ -28,7 +28,7 @@ LIMIT 5;
 --
 
 SELECT DISTINCT quiz.user_id, 
-home_try_on.user_id IS NOT NULL AS 'home_try_on',
+home_try_on.user_id IS NOT NULL AS 'is_home_try_on',
 home_try_on.number_of_pairs,
 purchase.user_id IS NOT NULL AS 'is_purchase'
 FROM quiz
