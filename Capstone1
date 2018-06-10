@@ -37,3 +37,18 @@ ON quiz.user_id = home_try_on.user_id
 LEFT JOIN purchase
 ON purchase.user_id = quiz.user_id
 LIMIT 10;
+
+SELECT DISTINCT q.user_id, 
+CASE WHEN h.user_id IS NOT NULL
+	THEN 'True' ELSE 'False'
+	END AS 'home_try_on',
+h.number_of_pairs,
+CASE WHEN p.user_id IS NOT NULL 
+	THEN 'TRUE' ELSE 'FALSE'
+	END AS 'is_purchase'
+FROM quiz as q
+LEFT JOIN home_try_on as h
+ON q.user_id = h.user_id
+LEFT JOIN purchase as p
+ON p.user_id = q.user_id
+LIMIT 10;
