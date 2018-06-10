@@ -41,7 +41,7 @@ LIMIT 10;
 SELECT DISTINCT q.user_id, 
 CASE WHEN h.user_id IS NOT NULL
 	THEN 'True' ELSE 'False'
-	END AS 'home_try_on',
+	END AS 'is_home_try_on',
 h.number_of_pairs,
 CASE WHEN p.user_id IS NOT NULL 
 	THEN 'TRUE' ELSE 'FALSE'
