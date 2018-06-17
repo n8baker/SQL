@@ -6,8 +6,7 @@
  
  -- Response Number
  
-  SELECT question, 
- 		COUNT(Distinct user_id) as 'responses'
+ SELECT question, COUNT(Distinct user_id) as 'responses'
  FROM survey
  GROUP BY question;
  
